@@ -1,17 +1,19 @@
-import { groq } from 'next-sanity'
-import { client } from '../../sanity/client'
+export const dynamic = 'force-dynamic'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { getPostBySlug } from '../../lib/getPost'
 
-type Props = {
-  params: { slug: string }
-}
 
-export default async function PostPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug)
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
 
-  if (!post) notFound()
+  const post = await getPostBySlug(slug)
+
+  if (!post) {
+    notFound() //status: 404
+  }
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
@@ -24,7 +26,7 @@ export default async function PostPage({ params }: Props) {
         <div className="mb-6">
           <Image
             src={post.image.asset.url}
-            alt={post.title}
+            alt={post.title || 'Image title is missing'}
             width={800}
             height={500}
             className="rounded-2xl object-cover w-full"
@@ -56,7 +58,7 @@ export default async function PostPage({ params }: Props) {
           rel="noopener noreferrer"
           className="inline-block text-blue-600 underline"
         >
-          ▶ Watch Video
+          Watch Video
         </a>
       )}
 
@@ -80,20 +82,5 @@ export default async function PostPage({ params }: Props) {
         </div>
       )}
     </main>
-  )
-}
-
-async function getPostBySlug(slug: string) {
-  return await client.fetch(
-    groq`*[_type == "post" && slug.current == $slug][0]{
-      title,
-      subtitle,
-      description,
-      label,
-      video,
-      links,
-      image{asset->{url}}
-    }`,
-    { slug }
   )
 }

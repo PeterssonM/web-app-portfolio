@@ -38,6 +38,10 @@ export default function ContactMe() {
       <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
         Contact Me
       </h2>
+      <p className="text-center text-sm text-gray-600 mb-6">
+        The information you submit is only used to send an email and is not stored.
+      </p>
+
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-2xl shadow-lg">
         <input
           type="text"

@@ -12,7 +12,7 @@ const Navbar = () => {
     const section = document.getElementById(id);
     if (section) {
       window.scrollTo({
-        top: section.offsetTop - 80,
+        top: section.offsetTop - 40,
         behavior: 'smooth',
       });
     }
@@ -30,12 +30,19 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
       <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
-        <h1
-          className="text-xl font-bold cursor-pointer"
-          onClick={() => scrollToSection("home")}
-        >
-          Maximilian Petersson
-        </h1>
+      <h1
+        className="text-xl font-bold cursor-pointer"
+        onClick={() => {
+          if (window.location.pathname !== '/') {
+            router.push('/');
+          } else {
+            scrollToSection("home");
+          }
+        }}
+      >
+        Maximilian Petersson
+      </h1>
+
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6">

@@ -40,6 +40,9 @@ export default function Login() {
       <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
         Login
       </h2>
+      <p className="text-center text-sm text-gray-600 mb-6">
+        This is an admin only page.
+      </p>
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-2xl shadow-lg">
         <input
           type="email"

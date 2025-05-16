@@ -14,6 +14,31 @@ interface LabelNode {
 interface HeroLabelsProp {
   labels: string[]
 }
+//Tailwind resposive standards: sm, md, lg, xl, 2xl
+type ScreenCategory = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+
+function useScreenCategory(): ScreenCategory {
+  const [category, setCategory] = useState<ScreenCategory>('sm')
+
+  useEffect(() => {
+    const updateCategory = () => {
+      const width = window.innerWidth
+      if (width < 384) return setCategory('xs') // small mobile
+      else if (width < 768) return setCategory('sm') // mobile
+      else if (width < 1024) return setCategory('md') // tablet
+      else if (width < 1280) return setCategory('lg') // laptop
+      else if (width < 1536) return setCategory('xl') // pc
+      else setCategory('2xl') // large pc
+    
+    }
+
+    updateCategory()
+    window.addEventListener('resize', updateCategory)
+    return () => window.removeEventListener('resize', updateCategory)
+  }, [])
+
+  return category
+}
 
 function calculateIoU(a: LabelNode, b: LabelNode): number {
   const ax1 = a.x - a.width / 2
@@ -39,13 +64,18 @@ function calculateIoU(a: LabelNode, b: LabelNode): number {
   return unionArea > 0 ? intersectionArea / unionArea : 0
 }
 
-function generateNonOverlappingNodes(labels: string[], containerWidth: number, containerHeight: number, maxAttempts = 100): LabelNode[] {
+function generateNonOverlappingNodes(
+  labels: string[],
+  containerWidth: number,
+  containerHeight: number,
+  maxAttempts = 100
+): LabelNode[] {
   const nodes: LabelNode[] = []
   const colors = ['#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']
 
   for (let label of labels) {
-    const width = label.length * 8 + 20 
-    const height = 28 
+    const width = label.length * 8 + 20
+    const height = 28
 
     let attempts = 0
     while (attempts < maxAttempts) {
@@ -75,9 +105,17 @@ function generateNonOverlappingNodes(labels: string[], containerWidth: number, c
 }
 
 export default function HeroClientLabels({ labels }: HeroLabelsProp) {
-
   const [nodes, setNodes] = useState<LabelNode[]>([])
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const screen = useScreenCategory()
+
+  const threshold =
+    screen === 'xs' ? 120 :
+    screen === 'sm' ? 140 :
+    screen === 'md' ? 180 :
+    screen === 'lg' ? 190 :
+    screen === 'xl' ? 200 :
+    250
 
   useEffect(() => {
     if (containerRef.current) {
@@ -85,56 +123,53 @@ export default function HeroClientLabels({ labels }: HeroLabelsProp) {
       const nodes = generateNonOverlappingNodes(labels, width, height)
       setNodes(nodes)
     }
-  }, [labels])
+  }, [labels, screen])
 
   return (
-    <div className="relative w-full h-auto min-h-[250px]" ref={containerRef}>
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <svg className="absolute inset-0 z-0 pointer-events-none w-full h-full">
-            {nodes.map((a, i) =>
-              nodes.slice(i + 1).map((b, j) => {
-                const dx = a.x - b.x
-                const dy = a.y - b.y
-                const distance = Math.sqrt(dx * dx + dy * dy)
-                //768px
-                const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-                const threshold = isMobile ? 100 : 180;
+    <div className="relative w-full max-w-[1200px] mx-auto h-[380px] sm:h-[350px] lg:h-[240px] 2xl:h-[400px]" ref={containerRef}>
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <svg className="absolute inset-0 z-0 pointer-events-none w-full h-full">
+          {nodes.map((a, i) =>
+            nodes.slice(i + 1).map((b, j) => {
+              const dx = a.x - b.x
+              const dy = a.y - b.y
+              const distance = Math.sqrt(dx * dx + dy * dy)
 
-                if (distance < threshold) {
-                  return (
-                    <line
-                      key={`line-${i}-${j}`}
-                      x1={a.x}
-                      y1={a.y}
-                      x2={b.x}
-                      y2={b.y}
-                      stroke="#93c5fd"
-                      strokeWidth="1"
-                      strokeOpacity="0.3"
-                    />
-                  )
-                }
-                return null
-              })
-            )}
-          </svg>
-  
-          {nodes.map((node, index) => (
-            <span
-              key={index}
-              className="absolute text-xs px-2 py-1 rounded-full animate-float"
-              style={{
-                left: node.x - node.width / 2,
-                top: node.y - node.height / 2,
-                width: node.width,
-                backgroundColor: node.color,
-                color: '#1e3a8a',
-              }}
-            >
-              {node.label}
-            </span>
-          ))}
-        </div>
+              if (distance < threshold) {
+                return (
+                  <line
+                    key={`line-${i}-${j}`}
+                    x1={a.x}
+                    y1={a.y}
+                    x2={b.x}
+                    y2={b.y}
+                    stroke="#93c5fd"
+                    strokeWidth="1"
+                    strokeOpacity="0.3"
+                  />
+                )
+              }
+              return null
+            })
+          )}
+        </svg>
+
+        {nodes.map((node, index) => (
+          <span
+            key={index}
+            className="absolute text-xs px-2 py-1 rounded-full animate-float"
+            style={{
+              left: node.x - node.width / 2,
+              top: node.y - node.height / 2,
+              width: node.width,
+              backgroundColor: node.color,
+              color: '#1e3a8a',
+            }}
+          >
+            {node.label}
+          </span>
+        ))}
+      </div>
     </div>
   )
 }

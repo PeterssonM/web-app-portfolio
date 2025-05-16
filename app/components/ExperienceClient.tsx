@@ -33,12 +33,12 @@ export default function ExperienceClient({ initialExperience }: { initialExperie
       ))}
 
       {initialExperience.length > 1 && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center">
             <button
                 onClick={() => setShowMore((prev) => !prev)}
                 className="text-blue-600 hover:underline font-medium"
             >
-            {showMore ? 'Show Less' : 'Show More'}
+            {showMore ? 'Show Less' : 'Show All'}
             </button>
         </div>
   

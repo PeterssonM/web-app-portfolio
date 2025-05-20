@@ -2,15 +2,16 @@ import { client } from '../sanity/client'
 
 export interface Post {
   _id: string
-  slug: any
+  slug: {
+    current: string
+  }
   title?: string
   subtitle?: string
   label?: string[]
-  description?: string
+  description?: any[]
   image?: {
     asset: {
-      _ref: string
-      _type: string
+      _id: string
       url: string
     }
   }
@@ -19,6 +20,7 @@ export interface Post {
     title: string
     url: string
   }[]
+  priority?: number
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -39,9 +41,36 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     links[] {
       title,
       url
-    }
+    },
+    priority
   }`
 
   const post = await client.fetch(query, { slug })
   return post
+}
+
+export async function getPosts(): Promise<Post[]> {
+  const query = `*[_type == "post"] | order(priority asc) {
+    _id,
+    slug,
+    title,
+    subtitle,
+    label,
+    description,
+    image {
+      asset->{
+        _id,
+        url
+      }
+    },
+    video,
+    links[] {
+      title,
+      url
+    },
+    priority
+  }`
+
+  const posts = await client.fetch(query)
+  return posts
 }

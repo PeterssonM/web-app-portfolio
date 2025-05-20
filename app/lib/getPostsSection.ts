@@ -6,11 +6,12 @@ export interface Post {
   title?: string
   subtitle?: string
   label?: string[]
-  description?: string
+  description?: any 
+  priority?: number
   image?: {
     asset: {
-      _ref: string
-      _type: string
+      _ref?: string
+      _type?: string
       url: string
     }
   }
@@ -22,12 +23,13 @@ export interface Post {
 }
 
 export async function getPostsSection(): Promise<Post[]> {
-  const query = `*[_type == "post"]{
+  const query = `*[_type == "post"] | order(priority asc) {
     _id,
     slug,
     title,
     subtitle,
     label,
+    priority,
     description,
     image {
       asset->{

@@ -7,7 +7,7 @@ export default async function HeroSection() {
 
   return (
     <section className="relative pt-24 pb-12 px-4 overflow-hidden">
-      <div className="relative z-10 text-center">
+      <div className="relative text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
           Hi, I'm Maximilian
         </h1>

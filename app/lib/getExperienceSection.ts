@@ -9,21 +9,23 @@ export interface Experience {
   company: string
   location: string
   period: string
-  description: string
-  label?: string[] 
+  description: any[]
+  priority?: number
+  label?: string[]
 }
 
 export async function getExperienceSection(): Promise<Experience[]> {
-  const query = `*[_type == "experience"]{
+  const query = `*[_type == "experience"] | order(priority asc) {
     _id,
     title,
-    slug{
+    slug {
       current
     },
     company,
     location,
     period,
     description,
+    priority,
     label
   }`
 

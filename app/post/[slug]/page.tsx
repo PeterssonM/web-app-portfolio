@@ -2,20 +2,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPostBySlug } from '../../lib/getPost'
-
+import { PortableText } from '@portabletext/react'
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-
+  const { slug } = await params
   const post = await getPostBySlug(slug)
 
   if (!post) {
-    notFound() //status: 404
+    notFound() // status: 404
   }
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
-      <Link href="/" className="text-sm text-blue-600 underline mb-4 block">← Back</Link>
+      <Link href="/" className="text-sm text-blue-600 underline mb-4 block">
+        ← Back
+      </Link>
 
       <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
       {post.subtitle && <h2 className="text-xl text-gray-600 mb-4">{post.subtitle}</h2>}
@@ -45,9 +46,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      <div className="text-gray-800 text-base leading-relaxed mb-6 whitespace-pre-line">
-        {post.description}
-      </div>
+      {post.description && (
+        <div className="text-gray-800 text-base leading-relaxed mb-6 prose prose-blue max-w-none">
+          <PortableText value={post.description} />
+        </div>
+      )}
 
       {post.video && (
         <a

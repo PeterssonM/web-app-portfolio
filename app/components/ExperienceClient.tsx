@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PortableText } from '@portabletext/react'
 import type { Experience } from '../lib/getExperienceSection'
 
 export default function ExperienceClient({ initialExperience }: { initialExperience: Experience[] }) {
@@ -15,7 +16,10 @@ export default function ExperienceClient({ initialExperience }: { initialExperie
             <h3 className="text-xl font-semibold">{exp.title}</h3>
             <h4 className="text-lg text-gray-600">{exp.company}</h4>
             <p className="text-sm text-gray-700">{exp.period}</p>
-            <p className="text-sm text-gray-700 mt-2">{exp.description}</p>
+
+            <div className="mt-2 text-sm text-gray-700 prose prose-sm max-w-none">
+              {exp.description && <PortableText value={exp.description} />}
+            </div>
 
             {exp.label && exp.label.length > 0 && (
               <div className="mt-4">
@@ -34,14 +38,13 @@ export default function ExperienceClient({ initialExperience }: { initialExperie
 
       {initialExperience.length > 1 && (
         <div className="flex justify-center">
-            <button
-                onClick={() => setShowMore((prev) => !prev)}
-                className="text-blue-600 hover:underline font-medium"
-            >
+          <button
+            onClick={() => setShowMore((prev) => !prev)}
+            className="text-blue-600 hover:underline font-medium"
+          >
             {showMore ? 'Show Less' : 'Show All'}
-            </button>
+          </button>
         </div>
-  
       )}
     </div>
   )

@@ -2,7 +2,7 @@ import { client } from '../sanity/client'
 
 export interface About {
   title?: string
-  bio?: string
+  description?: any[] 
   location?: string
   email?: string
   profileImage?: {
@@ -21,7 +21,7 @@ export interface About {
 export async function getAboutMeSection(): Promise<About> {
   const query = `*[_type == "about"][0]{
     title,
-    bio,
+    description,
     location,
     email,
     profileImage {

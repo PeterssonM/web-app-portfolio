@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { Post } from '../lib/getPostsSection'
+import { PortableText } from '@portabletext/react'
 
 export default function PostsClient({ initialPosts }: { initialPosts: Post[] }) {
   const [showMore, setShowMore] = useState(false)
@@ -18,7 +19,7 @@ export default function PostsClient({ initialPosts }: { initialPosts: Post[] }) 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const visiblePosts = showMore ? initialPosts : initialPosts.slice(0, isMobile ? 3 : 6)
+  const visiblePosts = showMore ? initialPosts : initialPosts.slice(0, isMobile ? 1 : 6)
 
   return (
     <>
@@ -32,8 +33,8 @@ export default function PostsClient({ initialPosts }: { initialPosts: Post[] }) 
             <div>
               <h3 className="text-xl font-semibold">{post.title}</h3>
               {post.subtitle && <h4 className="text-gray-600">{post.subtitle}</h4>}
-              <div className="mt-2 mb-2 text-sm text-gray-700 line-clamp-3">
-                {post.description}
+              <div className="mt-2 mb-2 text-sm text-gray-700 line-clamp-3 prose prose-sm max-w-none">
+                {post.description && <PortableText value={post.description} />}
               </div>
 
               {post.label && post.label.length > 0 && (

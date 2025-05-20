@@ -39,7 +39,7 @@ export default function ContactMe() {
         Contact Me
       </h2>
       <p className="text-center text-sm text-gray-600 mb-6">
-        The information you submit is not stored by this website. It may be stored by the email provider Resend and in my inbox.
+        The information you submit is not stored by this website.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-2xl shadow-lg">

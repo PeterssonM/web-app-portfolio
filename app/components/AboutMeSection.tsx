@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { getAboutMeSection } from '../lib/getAboutMeSection'
+import { PortableText } from '@portabletext/react'
 
 export default async function AboutMeSection() {
   const aboutMe = await getAboutMeSection()
@@ -21,7 +22,9 @@ export default async function AboutMeSection() {
         )}
 
         <div>
-          <p className="text-lg text-gray-800 mb-4">{aboutMe.bio}</p>
+          <div className="text-lg text-gray-800 mb-4 prose prose-blue max-w-none">
+            {aboutMe.description && <PortableText value={aboutMe.description} />}
+          </div>
 
           <ul className="text-sm text-gray-600 space-y-1">
             {aboutMe.location && (
@@ -31,24 +34,30 @@ export default async function AboutMeSection() {
             )}
             {aboutMe.email && (
               <li>
-                <strong>Email:</strong> <a href={`mailto:${aboutMe.email}`} className="text-blue-600 hover:underline">{aboutMe.email}</a>
+                <strong>Email:</strong>{' '}
+                <a
+                  href={`mailto:${aboutMe.email}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {aboutMe.email}
+                </a>
               </li>
             )}
             {aboutMe.socialLinks && aboutMe.socialLinks.length > 0 && (
               <li>
                 <strong>Social:</strong>{' '}
                 {aboutMe.socialLinks.map((link, idx) => (
-                <span key={idx}>
-                  <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                  >
-                  {link.platform}
-                  </a>
-                  {idx < aboutMe.socialLinks!.length - 1 && ' | '}
-                </span>
+                  <span key={idx}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {link.platform}
+                    </a>
+                    {idx < aboutMe.socialLinks!.length - 1 && ' | '}
+                  </span>
                 ))}
               </li>
             )}

@@ -108,7 +108,10 @@ const NavbarClient = ({ isOpenToWork }: NavbarClientProps) => {
           {navItems.map((item) => (
             <li key={item.label}>
               <button
-                onClick={() => handleMenuItemClick(item)}
+                onClick={() => {
+                  handleMenuItemClick(item)
+                  setMenuOpen(!menuOpen)
+                }}
                 className={`block text-lg px-4 py-2 rounded transition ${
                   item.highlight ? highlightBtn : hoverBtn
                 }`}

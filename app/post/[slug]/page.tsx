@@ -3,20 +3,19 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPostBySlug } from '../../lib/getPost'
 import { PortableText } from '@portabletext/react'
+import BackArrow from '@/app/components/BackArrow'
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
 
   if (!post) {
-    notFound() // status: 404
+    notFound() 
   }
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">
-      <Link href="/" className="text-sm text-blue-600 underline mb-4 block">
-        ← Back
-      </Link>
+      <BackArrow />
 
       <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
       {post.subtitle && <h2 className="text-xl text-gray-600 mb-4">{post.subtitle}</h2>}

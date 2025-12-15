@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 interface NavbarClientProps {
   isOpenToWork: boolean
@@ -23,6 +22,15 @@ const NavbarClient = ({ isOpenToWork }: NavbarClientProps) => {
   const router = useRouter()
 
   const scrollToSection = (id: string) => {
+    if (id === 'home') {
+        window.scrollTo({ 
+          top: 0,
+          behavior: 'smooth' 
+        })
+        setMenuOpen(false)
+        return
+    }
+
     const section = document.getElementById(id)
     if (section) {
       window.scrollTo({
@@ -47,8 +55,8 @@ const NavbarClient = ({ isOpenToWork }: NavbarClientProps) => {
   }
 
   const baseBtn = "transition px-3 py-1 rounded"
-  const highlightBtn = "bg-blue-500 text-white border border-blue-600 hover:bg-blue-600"
-  const hoverBtn = "hover:text-blue-500"
+  const highlightBtn = "bg-blue-500 text-white border border-blue-600 hover:bg-blue-600 cursor-pointer"
+  const hoverBtn = "hover:text-blue-500 cursor-pointer"
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">

@@ -14,7 +14,6 @@ interface LabelNode {
 interface HeroLabelsProp {
   labels: string[]
 }
-//Tailwind resposive standards: sm, md, lg, xl, 2xl
 type ScreenCategory = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 function useScreenCategory(): ScreenCategory {
@@ -23,12 +22,12 @@ function useScreenCategory(): ScreenCategory {
   useEffect(() => {
     const updateCategory = () => {
       const width = window.innerWidth
-      if (width < 384) return setCategory('xs') // small mobile
-      else if (width < 768) return setCategory('sm') // mobile
-      else if (width < 1024) return setCategory('md') // tablet
-      else if (width < 1280) return setCategory('lg') // laptop
-      else if (width < 1536) return setCategory('xl') // pc
-      else setCategory('2xl') // large pc
+      if (width < 384) return setCategory('xs') 
+      else if (width < 768) return setCategory('sm') 
+      else if (width < 1024) return setCategory('md') 
+      else if (width < 1280) return setCategory('lg') 
+      else if (width < 1536) return setCategory('xl') 
+      else setCategory('2xl') 
     
     }
 

@@ -8,6 +8,7 @@ import { PortableText } from '@portabletext/react'
 export default function PostsClient({ initialPosts }: { initialPosts: Post[] }) {
   const [showMore, setShowMore] = useState(false)
   const [isMobile, setIsMobile] = useState(true)
+  const [loadingId, setLoadingId] = useState<string | null>(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,8 +29,18 @@ export default function PostsClient({ initialPosts }: { initialPosts: Post[] }) 
           <Link
             key={post._id}
             href={`/post/${post.slug.current}`}
-            className="bg-white rounded-2xl shadow-md p-4 hover:shadow-lg transition-shadow"
+            className="relative overflow-hidden bg-white rounded-2xl shadow-md p-4 hover:shadow-lg transition-shadow"
+            onClick={() => setLoadingId(post._id)}
           >
+            {loadingId === post._id && (
+              <div
+                className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/30 backdrop-blur-sm"
+                aria-hidden="true"
+              >
+                <span className="w-10 h-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+              </div>
+            )}
+
             <div>
               <h3 className="text-xl font-semibold">{post.title}</h3>
               {post.subtitle && <h4 className="text-gray-600">{post.subtitle}</h4>}

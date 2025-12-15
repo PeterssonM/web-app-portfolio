@@ -15,16 +15,13 @@ export default function ExperienceClient({ initialExperience }: { initialExperie
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // visa 1 på mobil, annars 2 (layoutbredd matchas av grid-colspan)
   const visibleExperience = showMore ? initialExperience : initialExperience.slice(0, isMobile ? 1 : 2)
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-8">
         {visibleExperience.map((exp) => (
-          // varje experience får samma kolumnbredd som vi definierat: md:2, lg:3
           <div key={exp._id} className="col-span-1 md:col-span-2 lg:col-span-3">
-            {/* Viktigt: samma horisontella padding som posts (p-4 på posts) -> använd px-4 här */}
             <div className="px-4 py-0 flex flex-col items-start gap-4">
               <div className="flex-1">
                 <h3 className="text-xl font-semibold">{exp.title}</h3>

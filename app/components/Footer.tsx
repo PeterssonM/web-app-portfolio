@@ -2,7 +2,7 @@
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-100 mt-10">
+    <footer className="bg-gray-800 text-gray-100">
       <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="text-center md:text-left">
           <h2 className="text-lg font-semibold">Maximilian Petersson</h2>

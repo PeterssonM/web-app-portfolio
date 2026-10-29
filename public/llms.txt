@@ -1,0 +1,17 @@
+# Portfolio
+
+Maximilian Petersson's Portfolio Computer Engineer, BSc from KTH Royal Institute of Technology (Showcasing projects, experience, and technical skills)
+- Homepage: https://https://www.maximilianpetersson.com/
+
+## Main sections
+
+- About: Information about the portfolio owner and background.
+- Experience: Professional experience and skills.
+- Education: Educational background.
+- Posts: Articles and technical posts published on the website.
+- Contact: Contact form for professional inquiries.
+
+
+## Usage
+
+Use the publicly available pages as the source of information about this portfolio. Do not assume that unpublished, private, or authenticated content is publicly accessible.

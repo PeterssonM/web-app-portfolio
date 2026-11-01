@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
+export const metadata: Metadata = {
+  title: "Maximilian Petersson's Portfolio",
+  description:
+    "Professional experience, education, technical posts, and contact information.",
+};
 
 export const dynamic = 'force-dynamic'
 

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getPost } from "@/app/lib/getPost";
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -9,11 +8,15 @@ import BackArrow from '@/app/components/BackArrow'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return { title: "Post not found" };
+  }
 
   return {
     title: post.title,
-    description: post.excerpt ?? undefined,
+    description: post.subtitle,
     alternates: { canonical: `/post/${slug}` },
   };
 }

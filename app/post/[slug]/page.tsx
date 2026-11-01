@@ -1,9 +1,25 @@
+import type { Metadata } from "next";
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPostBySlug } from '../../lib/getPost'
 import { PortableText } from '@portabletext/react'
 import BackArrow from '@/app/components/BackArrow'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return { title: "Post not found" };
+  }
+
+  return {
+    title: post.title,
+    description: post.subtitle,
+    alternates: { canonical: `/post/${slug}` },
+  };
+}
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

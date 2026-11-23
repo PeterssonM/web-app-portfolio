@@ -12,20 +12,12 @@ export default function Home() {
         <HeroSection />
       </section>
 
-      <section id="experience">
-        <ExperienceSection />
-      </section>
-
       <section id="projects">
         <PostsSection />
       </section>
 
       <section id="about-me">
         <AboutMeSection />
-      </section>
-
-      <section id="education">
-        <EducationSection />
       </section>
 
       <section id="contact-me">

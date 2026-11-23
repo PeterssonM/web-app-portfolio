@@ -9,10 +9,8 @@ interface NavbarClientProps {
 
 const navItems = [
   { label: 'Home', id: 'home' },
-  { label: 'Experience', id: 'experience' },
   { label: 'Projects', id: 'projects' },
   { label: 'About Me', id: 'about-me' },
-  { label: 'Education', id: 'education' },
   { label: 'Contact Me', id: 'contact-me', highlight: true },
   { label: 'Login', href: '/admin' },
 ]
